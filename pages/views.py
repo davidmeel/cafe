@@ -17,14 +17,15 @@ def home(request):
 
 
 
-
 def reservation(request):
-    if request.method == "POST":
-        form = ReservationForm(request.POST)
-        if form.is_valid:
-            form.save()
-            return redirect('home')
-        else:
-            return render(request, 'index.html')
-    else:
-        return render(request, 'index.html')
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        reserve = ReservationModel.objects.create(
+            name=name,
+            email=email,
+            message=message,
+        )
+        reserve.save()
+        return redirect('home')
